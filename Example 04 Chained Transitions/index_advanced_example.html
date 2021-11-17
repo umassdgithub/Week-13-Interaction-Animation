@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chained Transition Example</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<style>
+
+
+body{
+    font-family: sans-serif;
+    max-width: 960px;
+    margin: 1px;
+}
+    div {
+        width: 10px;
+        height: 10px;
+        margin: 1px 0 0 1px;
+        float: left;
+        background: #eee;
+        display: inline-block;
+    }
+
+</style>
+<body>
+Mike Bostock’s Block 70d5541b547cc222aa02<br>
+<a href="https://bl.ocks.org/mbostock/70d5541b547cc222aa02">https://bl.ocks.org/mbostock/70d5541b547cc222aa02</a>
+<br>
+<script>
+
+    let n = 4002;
+
+    let whiteblue = d3.interpolateRgb("#eee", "steelblue"),
+        blueorange = d3.interpolateRgb("steelblue", "orange"),
+        orangewhite = d3.interpolateRgb("orange", "#eee");
+
+
+    d3.select("body").selectAll("div")
+        .data(d3.range(n))
+        .enter().append("div")
+        .transition()
+        .delay(function(d, i) { return i + Math.random() * n / 4; })
+        .ease(d3.easeLinear)
+        .on("start", function repeat() {
+            d3.active(this)
+                .styleTween("background-color", function() { return whiteblue; })
+                .transition()
+                .delay(1000)
+                .styleTween("background-color", function() { return blueorange; })
+                .transition()
+                .delay(1000)
+                .styleTween("background-color", function() { return orangewhite; })
+                .transition()
+                .delay(n)
+                .on("start", repeat);
+        });
+
+</script>
+</body>
+</html>
