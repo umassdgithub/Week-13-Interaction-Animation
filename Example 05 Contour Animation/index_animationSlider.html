@@ -56,7 +56,7 @@
 
 <body>
 
-<svg width="80vw" viewbox="0 0 192 121"></svg>
+<svg width="70vw" viewbox="0 0 192 121"></svg>
 
 <div id='time'>
 </div>
@@ -133,12 +133,9 @@
             let range_bottom = slider.slider("values",0);
             let range_top = slider.slider("values",1);
 
-
-
-
             let contours = d3.contours()
                 .size([m, n])
-                .thresholds(d3.range(range_bottom,range_top,2)) // we know the min max for all days of the year is -88 & +56
+                .thresholds(d3.range(range_bottom,range_top,5)) // we know the min max for all days of the year is -88 & +56
                 (values_T);
 
             let colors = d3.scaleLinear()
