@@ -10,7 +10,7 @@ D3 Animation/Transition + d3.interval(<i>function</i>,<i>timeSpan</i>);
 </li>
 <li>Example 05 Animation using d3.interval function </li>
 <br>
-<img src="images/anim06.gif">
+<img src="images/anim05.gif">
 <li>Example 06 Animation using attrTween<br>
 <img src="images/anim06.gif">
 </li>
