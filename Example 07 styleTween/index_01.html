@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chained Reaction</title>
+    <style>
+        svg{
+            width: 50vw;
+            height: 35vw;
+            background-color: #efefef;
+        }
+    </style>
+</head>
+<body>
+<script src="../lib/d3.js"></script>
+<script>
+
+const svg = d3.selectAll('body').append("svg").attr("viewBox","0 0 1000 1000")
+const dot = svg.append("circle").attr("cx","500").attr("cy","500").attr("r","20").attr("fill","black")
+dot.attr("cx",100)
+    .transition()
+    .duration(3000)
+    .on("start",function repeat(){
+        d3.active(this)
+            .attr("cy",900)
+            .transition()
+            .attr("cy",100)
+            .transition()
+            .on("start",repeat)
+    })
+
+</script>
+</body>
+</html>

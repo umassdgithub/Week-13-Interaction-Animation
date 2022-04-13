@@ -5,6 +5,9 @@
     <title>Histogram, Transition Delay</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
+        body{
+            font-family: sans-serif;
+        }
         rect{
             fill-opacity: .8;
         }
@@ -116,7 +119,6 @@
                 .domain([0,d3.max(bin_Frequency,function (d) {return d;})])
                 .range([fig_height,0]);
 
-
             // x and y Axis function
             x_axis = d3.axisBottom(xScale).ticks(4)
             y_axis = d3.axisLeft(yScale).ticks(4)
@@ -130,7 +132,6 @@
             figure.append("g").attr("class","axis")
                 .attr("transform", `translate(${0},${0})`)
                 .call(y_axis);
-
 
         }
         make_scales()
@@ -178,13 +179,9 @@
 
         });
 
-
-
-
-
         // Labels
         figure.append("g").attr("class","label")
-            .attr("transform", `translate(${fig_width/2},${fig_height+margins/2})`)
+            .attr("transform", `translate(${fig_width/2},${fig_height+margins/1.8})`)
             .append("text")
             .attr("class","label")
             .text(xLabel);
@@ -193,8 +190,6 @@
             .append("text")
             .attr("class","label")
             .text(yLabel);
-
-
 
         /*
         Update data function is used to create another set of random numbers and update the histogram

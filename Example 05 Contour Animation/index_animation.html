@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <title>Animating contour</title>
 
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
+
 
     <style>
         #time
@@ -25,6 +22,11 @@
         }
 
     </style>
+    <script src="../lib/d3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
+
 
 </head>
 
@@ -40,7 +42,7 @@
 
     // make a list of all dates between 2018.01.01 and 2018.12.31
     let dates_2018 = d3.scaleTime()
-        .domain([new Date(2018, 1, 1), new Date(2018, 12, 31)])
+        .domain([new Date("01/01/2018"), new Date("12/31/2018")])
         .ticks(d3.timeDay, 1);
     // format the dates the list
     dates_2018 = d3.map(dates_2018,function(d){return d3.timeFormat('%d %b %Y')(d)})
@@ -84,8 +86,8 @@
         d3.range(0,365),function (d) {return `time_series/temperature_${d}.csv`;});
 
     let svg = d3.select("svg");
-    const min_temp =-88;
-    const max_temp = 56;
+    const min_temp =-80;
+    const max_temp = 70;
 
 
     function plot_contour(fileName)
@@ -102,7 +104,7 @@
             const extents = d3.extent(values_T);
             let contours = d3.contours()
                 .size([m, n])
-                .thresholds(d3.range(min_temp,max_temp,2)) // we know the min max for all days of the year is -88 & +56
+                .thresholds(d3.range(min_temp,max_temp,5)) // we know the min max for all days of the year is -88 & +56
                 (values_T);
 
 
@@ -186,7 +188,7 @@
         }
         plot_contour(timeSeries[frameNubmer]);
     }
-    d3.interval(frame,200);
+    d3.interval(frame,100);
 
 </script>
 </body>

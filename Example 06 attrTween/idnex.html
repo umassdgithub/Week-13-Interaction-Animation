@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Solar System</title>
+    <script src="../lib/d3.js"></script>
+    <style>
+        body{
+            font-family: sans-serif;
+        }
+        svg{
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<svg viewBox="0 0 500 500" width="50vw" height="50vw"></svg>
+<script>
+    d3.json("data/data.json").then(solarSystem=>
+    {
+        let distance_scale = d3.scaleLog()
+            .domain([57910000,4504000000])
+            .range([50,200]);
+        let rotation_scale = d3.scaleLog()
+            .domain([88,165*365])
+            .range([60,4]);
+        let diameter_scale = d3.scaleLinear()
+            .domain([4880,142984])
+            .range([3,10]);
+
+
+        let svg = d3.select("svg");
+        svg.append('rect')
+            .attr("x",0)
+            .attr("y",0)
+            .attr("width","100%")
+            .attr("height","100%")
+            .attr("fill","#231e1e")
+
+
+        let solarOrbits = svg.append('g')
+        solarOrbits.append("circle")
+            .attr("cx",250).attr("cy",250).attr("r",15)
+            .attr("fill","#dc9a1f")
+            .attr("stroke-width","10px")
+            .attr("stroke","#dc7514")
+            .attr("stroke-opacity",0.3)
+
+
+        solarOrbits.selectAll('.orbits')
+            .data(solarSystem)
+            .enter()
+            .append("circle")
+            .attr("class","orbits")
+            .attr("cx",250).attr("cy",250)
+            .attr("r",d=>distance_scale(d.distance))
+            .attr("fill","none")
+            .attr("stroke-width",".2px")
+            .attr("stroke","white")
+            .attr("stroke-dasharray","5 5");
+
+        let miniCircles = svg.append("g").attr("transform","translate(250,250)")
+
+
+        miniCircles = miniCircles.selectAll('elements')
+            .data(solarSystem).enter().append("g");
+
+
+
+        miniCircles.append("circle")
+            .attr("r",(d,i)=>diameter_scale(d.diameter))
+            .attr("fill",d=>d.color) // use values from the dataset
+        miniCircles.append("text")
+            .text(d=>d.name).attr("dx","12px").attr("fill","#bbbbbb").style("font-size","7pt")
+        miniCircles.transition()
+            .duration(200000).ease(d3.easeLinear)
+            .attrTween("transform",(d,i)=>{
+                let rndFactor = d3.randomInt(2,120)()
+                return t=>{
+                    t=t+rndFactor;
+                    let x_p = Math.cos(2*Math.PI*t*rotation_scale(d.year))*distance_scale(d.distance)
+                    let y_p = Math.sin(2*Math.PI*t*(rotation_scale(d.year)))*distance_scale(d.distance)
+                    return `translate(${x_p},${y_p})`
+                }});
+    })
+
+</script>
+</body>
+</html>
