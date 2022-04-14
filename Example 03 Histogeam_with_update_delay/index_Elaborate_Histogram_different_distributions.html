@@ -104,9 +104,9 @@
 
             // step 3 make bin function based on the steps sizes and the extents of data
             bins = d3.range(x_extent[0],x_extent[1],step_size);
+            let bin_function = d3.bin().thresholds(bins);
 
             // step 4 calculate the frequencies
-            let bin_function = d3.bin().thresholds(bins);
             let bin_Frequency_values = bin_function(d3.map(data,function (d) {return d;}));
 
             // step 5 count the number of elements in each bin
@@ -209,7 +209,7 @@
                     return i* 20;
                 })
                 .ease(d3.easeBounceOut)
-            figure.selectAll("rect")
+            figure.selectAll("rect") // you can add styling here
                 .on("mouseover", function(d){
                 })
                 .on("mousemove", function(d){
@@ -221,7 +221,7 @@
         End of update data function
          */
 
-        return {"bins":bins,"heights":bin_Frequency} // the function returns the number of bins and frequecy (just like numpy.histogram())
+        return {"bins":bins,"heights":bin_Frequency} // the function returns the number of bins and frequency (just like numpy.histogram())
     }
 
     data = generate_randomNormal_data()
